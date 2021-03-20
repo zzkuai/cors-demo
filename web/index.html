@@ -12,6 +12,10 @@
 <body>
 
   <script>
+    // 由于浏览器的同源策略 所以跨域请求需要后端设置对应的响应头
+    // 参考文章：
+    // https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS
+    // https://blog.huli.tw/2021/02/19/cors-guide-3/
     axios({
       url: 'http://127.0.0.1:3000',
       // 简单请求
