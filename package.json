@@ -1,0 +1,28 @@
+{
+  "name": "cors-demo",
+  "version": "1.0.0",
+  "description": "cors",
+  "main": "index.js",
+  "scripts": {
+    "s": "nodemon ./server/index.js",
+    "w": "http-server ./web"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zzkuai/cors-demo.git"
+  },
+  "keywords": [],
+  "author": "zzkuai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zzkuai/cors-demo/issues"
+  },
+  "homepage": "https://github.com/zzkuai/cors-demo#readme",
+  "devDependencies": {
+    "http-server": "^14.1.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}

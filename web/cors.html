@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cors demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <h1>cors</h1>
+
+    <button id="button">get data</button>
+
+    <script>
+      document.getElementById('button').addEventListener('click', getData);
+      // 由于浏览器的同源策略 所以跨域请求需要后端设置对应的响应头
+      // 参考文章：
+      // https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS
+      // https://blog.huli.tw/2021/02/19/cors-guide-3/
+      function getData() {
+        axios({
+          url: 'http://127.0.0.1:3000',
+          // 简单请求指：
+          // 1. method 是 GET POST HEAD
+          // 2. 允许的请求头为 Accept, Accept-Language, Content-Language, Content-Type
+          // Content-Type额外限制：text/plain, multipart/form-data, application/x-www-form-urlencoded
+          // method: 'get',
+          // params: {
+          //   id: 1
+          // },
+          // 非简单请求
+          // 会先发起一个预检请求（浏览器行为）
+          // 预检请求额外请求头字段：
+          // 1. Origin: 表明预检请求或实际请求的源站（域名）
+          // 2. Access-Control-Request-Method: 表明该次请求方法
+          // 3. Access-Control-Request-Headers: 表明该次请求额外请求头
+          method: 'get',
+          data: {
+            id: 1,
+            type: 'user',
+          },
+          headers: {
+            'x-key': 123,
+          },
+          // 带上cookie
+          withCredentials: true,
+        }).then((res) => {
+          console.log(res);
+
+          console.log(res.headers['x-version']);
+        });
+      }
+    </script>
+  </body>
+</html>
