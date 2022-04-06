@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jsonp</title>
+  </head>
+  <body>
+    <h1>jsonp</h1>
+
+    <button id="button">get data</button>
+
+    <script>
+      document.getElementById('button').addEventListener('click', request);
+
+      function request() {
+        jsonp('http://127.0.0.1:3000/data', {
+          id: 1,
+        })
+          .then((res) => {
+            console.log('get data from jsonp', res);
+          })
+          .catch((err) => {
+            console.log('err', err);
+          });
+      }
+
+      function jsonp(url, query, callback = 'getData') {
+        return new Promise((resolve, reject) => {
+          const scriptEl = document.createElement('script');
+          const data = parseQuery(query);
+          url += `?callback=${callback}` + data;
+          scriptEl.src = url;
+
+          document.body.appendChild(scriptEl);
+
+          window[callback] = (res) => {
+            delete window[callback];
+            document.body.removeChild(scriptEl);
+
+            if (res) {
+              resolve(res);
+            } else {
+              reject('没有获取到数据');
+            }
+          };
+
+          scriptEl.onerror = () => {
+            reject('获取数据失败');
+          };
+        });
+      }
+
+      function parseQuery(query) {
+        let str = '';
+        for (let key in query) {
+          str += `&${key}=${query[key]}`;
+        }
+        return str;
+      }
+    </script>
+  </body>
+</html>
